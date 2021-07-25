@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Speed Scrubber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrapper">
+    <video class="flex" width="765" height="430" src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" loop controls></video>
+    <div class="speed">
+      <div class="speed-bar">1×</div>
+    </div>
+  </div>
+
+<script>
+
+  const speed = document.querySelector('.speed');
+  const bar = speed.querySelector('.speed-bar');
+  const video = document.querySelector('.flex');
+
+  speed.addEventListener('mousemove', function(e) {
+    const y = e.pageY - this.offsetTop;
+    // to calculate taking into account the top might change
+    const percent = y / this.offsetHeight;
+    // to get the percentage of the position inside the bar
+    const min = 0.4;
+    const max = 4;
+    // needs to be % because the height will change the style
+    const height = Math.round(percent * 100) + '%';
+    bar.style.height = height;
+    // interpolation to obtain the variation inside the range
+    const playbackRate = percent * (max - min) + min;
+    // so the value inside the bar has the cool '#.##x'
+    bar.textContent = playbackRate.toFixed(2) + 'x';
+    // now we change the video playback
+    video.playbackRate = playbackRate; // this is a property of the video markdown
+  });
+
+
+</script>
+</body>
+</html>
